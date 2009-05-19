@@ -1,34 +1,35 @@
-var AL = {
+var Sym = {
 	selectToCheckbox: function(){
+		//funcs
+		jQuery.fn.extend({
+		    toggleState: function(){
+				if(jQuery(this).is(':checked')){ 
+					return jQuery(this).attr('checked', false).parent().removeClass('checked');						
+				}else{
+					return jQuery(this).attr('checked', true).parent().addClass('checked');
+				}
+			}
+		});
 		//ignore replace so it doesnt clash with reflection field
-		jQuery('select[multiple]').not('.replace').each(function(i, select) {
+		jQuery('select[multiple]').not('.replace').each(function(i, sel) {
 			//vars
-			var title = jQuery(select).parent('label').css("marginBottom","0.2em");
-			var name = jQuery(select).attr('name');
-			var vals = jQuery(select).val();
-			var scroll = jQuery('<div class="checkbox-scroll"></div>');
+			var select = jQuery(sel)
+			var title = select.parent('label').css("marginBottom","0.2em");
+			var name = select.attr('name');
+			var vals = select.val();
+			var scroll = jQuery('<div class="checkbox-scroll"/>');
 			var unorderedList = jQuery('<ul/>');
 			var zebra = 0;
-			//funcs
-			jQuery.fn.extend({
-			    toggleState: function(){
-					if(jQuery(this).is(':checked')){ 
-						return jQuery(this).attr('checked', false).parent().removeClass('checked');						
-					}else{
-						return jQuery(this).attr('checked', true).parent().addClass('checked');
-					}
-				}
-			});
 			//get values from options and create list items
-			jQuery('option', select).each(function(index, option) {
-				if(jQuery(option).val() == '') return;
-				//clone the element, in case it gets modified later with events etc
+			jQuery('option', select).each(function(index, opt) {
+				var option = jQuery(opt)
+				if(option.val() == '') return;
 				var listItem = 	jQuery('<li><input type="checkbox"/><label/></li>');
-				var value = jQuery(option).val();
-				var labeltxt = jQuery(option).text();
+				var value = option.val();
+				var labeltxt = option.text();
 				var id = name.replace(/\[|\]/g, '')+index;
 				//check it?
-				jQuery(option).is(":selected") ? jQuery('input', listItem).toggleState() : null;
+				option.is(":selected") ? jQuery('input', listItem).toggleState() : null;
 				//zebra stripes
 				(zebra++ % 2 == 0) ? listItem.addClass("odd") : null;
 				//populate values
@@ -37,7 +38,7 @@ var AL = {
 				//attach it to the list
 				unorderedList.append(listItem);
 			});		
-			//bind one click event to save memory again in case there are lots of elements
+			//bind one click event to save memory in case there are lots of elements
 			unorderedList.bind('click', function(event) {
 				var clicked = jQuery(event.target);
 				var clickedObject = clicked[0];
@@ -58,8 +59,7 @@ var AL = {
 			//if its long add a scrollbar
 			jQuery('li',unorderedList).length > 7 ? scroll.css({height: '150px', overflow: 'auto'}) : null;			
 			//extra options			
-			var buttons = jQuery('<div class="checkbox-buttons clear"/>');
-			buttons.html('<a id="checkbox-selectall-'+i+'">Select all</a><a id="checkbox-deselectall-'+i+'">Deselect all</a><a class="inactive" id="checkbox-reset-'+i+'">Reset</a>');
+			var buttons = jQuery('<div class="checkbox-buttons clear"><a id="checkbox-selectall-'+i+'">Select all</a><a id="checkbox-deselectall-'+i+'">Deselect all</a><a class="inactive" id="checkbox-reset-'+i+'">Reset</a></div>');
 			buttons.bind('click', function(event) {
 				var clicked = jQuery(event.target);
 				var clickedObject = clicked[0];
@@ -75,6 +75,7 @@ var AL = {
 							}else{
 								//must be the reset
 								jQuery("input:checked", unorderedList).toggleState();
+								if(!vals) return;
 								jQuery.each(vals, function(index, val) {
 								  jQuery("input[value='"+val+"']", unorderedList).toggleState();
 								});
@@ -88,10 +89,10 @@ var AL = {
 			//attach them to the page
 			jQuery([scroll,buttons]).insertAfter(title);
 			//remove the select
-			jQuery(select).remove();
+			select.remove();
 		});	
 	}
 }
 jQuery(function() {
-	if(jQuery('select[multiple]').length){AL.selectToCheckbox();}
+	if(jQuery('select[multiple]').length){Sym.selectToCheckbox();}
 });
