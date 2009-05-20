@@ -4,7 +4,7 @@
 		public function about() {
 			return array(
 				'name'			=> 'Multiselect to Checkboxes',
-				'version'		=> '0.1',
+				'version'		=> '1.0',
 				'release-date'	=> '2009-05-17',
 				'author'		=> array(
 					'name'			=> 'Fazal Khan',
