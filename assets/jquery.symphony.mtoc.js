@@ -13,22 +13,22 @@ var Sym = {
 		//ignore replace so it doesnt clash with reflection field
 		jQuery('select[multiple]').not('.replace').each(function(i, sel) {
 			//vars
-			var select = jQuery(sel)
-			var title = select.parent('label').css("marginBottom","0.2em");
-			var name = select.attr('name');
-			var vals = select.val();
-			var scroll = jQuery('<div class="checkbox-scroll"/>');
-			var unorderedList = jQuery('<ul/>');
-			var zebra = 0;
+			var select = jQuery(sel),
+			 title = select.parent('label').css("marginBottom","0.2em"),
+			 name = select.attr('name'),
+			 vals = select.val(),
+			 scroll = jQuery('<div class="checkbox-scroll"/>'),
+			 unorderedList = jQuery('<ul/>'),
+			 zebra = 0;
 			//get values from options and create list items
 			jQuery('option', select).each(function(index, opt) {
 				var option = jQuery(opt)
 				if(option.val() == '') return;
 				//clone the element, in case it gets modified later with events etc
-				var listItem = 	jQuery('<li><input type="checkbox"/><label/></li>');
-				var value = option.val();
-				var labeltxt = option.text();
-				var id = name.replace(/\[|\]/g, '')+index;
+				var listItem = 	jQuery('<li><input type="checkbox"/><label/></li>'),
+				 value = option.val(),
+				 labeltxt = option.text(),
+				 id = name.replace(/\[|\]/g, '')+index;
 				//check it?
 				option.is(":selected") ? jQuery('input:checkbox', listItem).toggleState() : null;
 				//zebra stripes
@@ -51,9 +51,10 @@ var Sym = {
 					};
 				};
 				//reactivate the buttons because something must have changed
-				jQuery.each(['checkbox-selectall-','checkbox-deselectall-','checkbox-reset-'], function() {
-				  	jQuery("#"+this+i).removeClass('inactive');
-				});
+				var buttons_arr = ['checkbox-selectall-'+i,'checkbox-deselectall-'+i,'checkbox-reset-'+i];
+				for (var x in buttons_arr) {
+				  	jQuery("#"+buttons_arr[x]).removeClass('inactive');
+				};
 				event.preventDefault();				
 			}).appendTo(scroll);
 			//if its long add a scrollbar
@@ -75,9 +76,9 @@ var Sym = {
 								//must be the reset
 								jQuery("input:checkbox:checked", unorderedList).toggleState();
 								if(!vals) return;
-								jQuery.each(vals, function(index, val) {
-								  jQuery("input:checkbox[value='"+val+"']", unorderedList).toggleState();
-								});
+								for(v in vals){
+								  jQuery("input:checkbox[value='"+vals[v]+"']", unorderedList).toggleState();
+								};
 							}
 							jQuery(clickedObject).addClass('inactive').siblings().removeClass('inactive');
 						break;						
