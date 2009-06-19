@@ -24,24 +24,24 @@ var Sym = {
 			jQuery('option', select).each(function(index, opt) {
 				var option = jQuery(opt)
 				if(option.val() == '') return;
+				//clone the element, in case it gets modified later with events etc
 				var listItem = 	jQuery('<li><input type="checkbox"/><label/></li>');
 				var value = option.val();
 				var labeltxt = option.text();
 				var id = name.replace(/\[|\]/g, '')+index;
 				//check it?
-				option.is(":selected") ? jQuery('input', listItem).toggleState() : null;
+				option.is(":selected") ? jQuery('input:checkbox', listItem).toggleState() : null;
 				//zebra stripes
 				(zebra++ % 2 == 0) ? listItem.addClass("odd") : null;
 				//populate values
-				jQuery('input', listItem).attr({'id': id, 'value': value, 'name': name});
+				jQuery('input:checkbox', listItem).attr({'id': id, 'value': value, 'name': name});
 				jQuery('label', listItem).attr({'for': id}).text(labeltxt);
 				//attach it to the list
 				unorderedList.append(listItem);
 			});		
-			//bind one click event to save memory in case there are lots of elements
+			//bind one click event to save memory again in case there are lots of elements
 			unorderedList.bind('click', function(event) {
-				var clicked = jQuery(event.target);
-				var clickedObject = clicked[0];
+				var clickedObject = jQuery(event.target)[0];
 				var j = jQuery('li', unorderedList).length;
 				//check for the correct clicked object
 				while (j--) {
@@ -61,23 +61,22 @@ var Sym = {
 			//extra options			
 			var buttons = jQuery('<div class="checkbox-buttons clear"><a id="checkbox-selectall-'+i+'">Select all</a><a id="checkbox-deselectall-'+i+'">Deselect all</a><a class="inactive" id="checkbox-reset-'+i+'">Reset</a></div>');
 			buttons.bind('click', function(event) {
-				var clicked = jQuery(event.target);
-				var clickedObject = clicked[0];
+				var clickedObject = jQuery(event.target)[0];
 				var j = 3;//3 buttons
 				//check for the correct clicked object
 				while (j--) {
 					if (clickedObject == jQuery('a', this)[j]) {
 							if(jQuery(clickedObject).hasClass('inactive')) return;
 							if(clickedObject.id == 'checkbox-selectall-'+i){
-								jQuery('input:not(:checked)', unorderedList).toggleState();
+								jQuery('input:checkbox:not(:checked)', unorderedList).toggleState();
 							} else if(clickedObject.id == 'checkbox-deselectall-'+i){
 								jQuery('input:checked', unorderedList).toggleState();
 							}else{
 								//must be the reset
-								jQuery("input:checked", unorderedList).toggleState();
+								jQuery("input:checkbox:checked", unorderedList).toggleState();
 								if(!vals) return;
 								jQuery.each(vals, function(index, val) {
-								  jQuery("input[value='"+val+"']", unorderedList).toggleState();
+								  jQuery("input:checkbox[value='"+val+"']", unorderedList).toggleState();
 								});
 							}
 							jQuery(clickedObject).addClass('inactive').siblings().removeClass('inactive');
