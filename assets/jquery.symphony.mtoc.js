@@ -76,7 +76,7 @@ var Sym = {
 								//must be the reset
 								jQuery("input:checkbox:checked", unorderedList).toggleState();
 								if(!vals) return;
-								for(v in vals){
+								for(var v in vals){
 								  jQuery("input:checkbox[value='"+vals[v]+"']", unorderedList).toggleState();
 								};
 							}
