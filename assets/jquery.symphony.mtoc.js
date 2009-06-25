@@ -52,8 +52,8 @@ var Sym = {
 				}
 				//reactivate the buttons because something must have changed
 				var buttons_arr = ['checkbox-selectall-'+i,'checkbox-deselectall-'+i,'checkbox-reset-'+i];
-				if (buttons_arr.hasOwnProperty(x)){
-					for (var x in buttons_arr) {
+				for (var x in buttons_arr) {
+					if (buttons_arr.hasOwnProperty(x)){
 				  		jQuery("#"+buttons_arr[x]).removeClass('inactive');
 					}
 				}
@@ -78,9 +78,9 @@ var Sym = {
 								//must be the reset
 								jQuery("input:checkbox:checked", unorderedList).toggleState();
 								if(!vals) return;
-								if (vals.hasOwnProperty(v)){
-									for(var v in vals){
-								  		jQuery("input:checkbox[value='"+vals[v]+"']", unorderedList).toggleState();
+								for(var v in vals){
+									if (vals.hasOwnProperty(v)){
+							  			jQuery("input:checkbox[value='"+vals[v]+"']", unorderedList).toggleState();
 									}
 								}
 							}
