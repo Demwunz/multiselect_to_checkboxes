@@ -22,8 +22,8 @@ var Sym = {
 			 zebra = 0;
 			//get values from options and create list items
 			jQuery('option', select).each(function(index, opt) {
-				var option = jQuery(opt)
-				if(option.val() == '') return;
+				var option = jQuery(opt);
+				if(option.val() === '') return;
 				//clone the element, in case it gets modified later with events etc
 				var listItem = 	jQuery('<li><input type="checkbox"/><label/></li>'),
 				 value = option.val(),
@@ -32,7 +32,7 @@ var Sym = {
 				//check it?
 				option.is(":selected") ? jQuery('input:checkbox', listItem).toggleState() : null;
 				//zebra stripes
-				(zebra++ % 2 == 0) ? listItem.addClass("odd") : null;
+				(zebra++ % 2 === 0) ? listItem.addClass("odd") : null;
 				//populate values
 				jQuery('input:checkbox', listItem).attr({'id': id, 'value': value, 'name': name});
 				jQuery('label', listItem).attr({'for': id}).text(labeltxt);
@@ -48,13 +48,15 @@ var Sym = {
 					if (clickedObject == jQuery('label', this)[j]) {
 							jQuery(clickedObject).siblings('input').toggleState();
 						break;						
-					};
-				};
+					}
+				}
 				//reactivate the buttons because something must have changed
 				var buttons_arr = ['checkbox-selectall-'+i,'checkbox-deselectall-'+i,'checkbox-reset-'+i];
-				for (var x in buttons_arr) {
-				  	jQuery("#"+buttons_arr[x]).removeClass('inactive');
-				};
+				if (buttons_arr.hasOwnProperty(x)){
+					for (var x in buttons_arr) {
+				  		jQuery("#"+buttons_arr[x]).removeClass('inactive');
+					}
+				}
 				event.preventDefault();				
 			}).appendTo(scroll);
 			//if its long add a scrollbar
@@ -76,14 +78,16 @@ var Sym = {
 								//must be the reset
 								jQuery("input:checkbox:checked", unorderedList).toggleState();
 								if(!vals) return;
-								for(var v in vals){
-								  jQuery("input:checkbox[value='"+vals[v]+"']", unorderedList).toggleState();
-								};
+								if (vals.hasOwnProperty(v)){
+									for(var v in vals){
+								  		jQuery("input:checkbox[value='"+vals[v]+"']", unorderedList).toggleState();
+									}
+								}
 							}
 							jQuery(clickedObject).addClass('inactive').siblings().removeClass('inactive');
 						break;						
-					};
-				};
+					}
+				}
 				event.preventDefault();
 			});
 			//attach them to the page
@@ -92,7 +96,7 @@ var Sym = {
 			select.remove();
 		});	
 	}
-}
+};
 jQuery(function() {
 	if(jQuery('select[multiple]').length){Sym.selectToCheckbox();}
 });
