@@ -1,5 +1,5 @@
 var Sym = {
-	selectToCheckbox: function(){
+	selectToCheckbox: function(o){
 		//funcs
 		jQuery.fn.extend({
 		    toggleState: function(){
@@ -11,7 +11,7 @@ var Sym = {
 			}
 		});
 		//ignore replace so it doesnt clash with reflection field
-		jQuery('select[multiple]').not('.replace').each(function(i, sel) {
+		jQuery('select[multiple]').not(o.ignore).each(function(i, sel) {
 			//vars
 			var select = jQuery(sel),
 			 title = select.parent('label').css("marginBottom","0.2em"),
@@ -98,5 +98,9 @@ var Sym = {
 	}
 };
 jQuery(function() {
-	if(jQuery('select[multiple]').length){Sym.selectToCheckbox();}
+	if(jQuery('select[multiple]').length){
+		Sym.selectToCheckbox({
+			ignore : ".replace, .source";
+		});
+	}
 });
