@@ -2,9 +2,12 @@ var Sym = {
 	selectToCheckbox: function(o){
 		//funcs
 		jQuery.fn.toggleState = function(){
-		  var checked = this.is(':checked');
-		  this.attr('checked', !checked)
-		    .parent().toggleClass('checked', !checked);
+		  var checked;
+		  return this.each(function(){
+		    checked = $(this).is(':checked');
+		    $(this).attr('checked', !checked)
+		      .parent().toggleClass('checked', !checked);
+		  })
 		};
 		//ignore replace so it doesnt clash with reflection field
 		jQuery('select[multiple]').not(o.ignore).each(function(i, sel) {
