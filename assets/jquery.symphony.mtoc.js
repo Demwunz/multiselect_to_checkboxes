@@ -1,15 +1,11 @@
 var Sym = {
 	selectToCheckbox: function(o){
 		//funcs
-		jQuery.fn.extend({
-		    toggleState: function(){
-				if(jQuery(this).is(':checked')){ 
-					return jQuery(this).attr('checked', false).parent().removeClass('checked');						
-				}else{
-					return jQuery(this).attr('checked', true).parent().addClass('checked');
-				}
-			}
-		});
+		jQuery.fn.toggleState = function(){
+		  var checked = this.is(':checked');
+		  this.attr('checked', !checked)
+		    .parent().toggleClass('checked', !checked);
+		};
 		//ignore replace so it doesnt clash with reflection field
 		jQuery('select[multiple]').not(o.ignore).each(function(i, sel) {
 			//vars
