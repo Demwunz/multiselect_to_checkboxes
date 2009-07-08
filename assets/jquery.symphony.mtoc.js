@@ -4,8 +4,8 @@ var Sym = {
 		jQuery.fn.toggleState = function(){
 		  var checked;
 		  return this.each(function(){
-		    checked = $(this).is(':checked');
-		    $(this).attr('checked', !checked)
+		    checked = jQuery(this).is(':checked');
+		    jQuery(this).attr('checked', !checked)
 		      .parent().toggleClass('checked', !checked);
 		  })
 		};
