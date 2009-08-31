@@ -99,7 +99,7 @@ var Sym = {
 jQuery(function() {
 	if(jQuery('select[multiple]').length){
 		Sym.selectToCheckbox({
-			ignore : ".replace, .source"
+			ignore : ".replace, .source, .field-mediathek select"
 		});
 	}
 });
