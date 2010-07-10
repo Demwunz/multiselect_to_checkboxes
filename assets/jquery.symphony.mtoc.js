@@ -5,8 +5,7 @@ var Sym = {
 		  var checked;
 		  return this.each(function(){
 		    checked = jQuery(this).is(':checked');
-		    jQuery(this).attr('checked', !checked)
-		      .parent().toggleClass('checked', !checked);
+		    jQuery(this).attr('checked', !checked).parent().toggleClass('checked', !checked);
 		  })
 		};
 		//ignore replace so it doesnt clash with reflection field
@@ -19,25 +18,43 @@ var Sym = {
 			 scroll = jQuery('<div class="checkbox-scroll"/>'),
 			 unorderedList = jQuery('<ul/>'),
 			 zebra = 0;
+			
+			if (jQuery('optgroup', select).length) {
+				optgroups = true;
+				unorderedList = jQuery('<div/>');
+				jQuery('optgroup', select).each(function(index, opt) {
+					var optgroup = jQuery('<ul></ul>');
+					addListItemFromOption(jQuery('option', this), optgroup);
+					var optgroup_container = jQuery('<div class="optgroup"/>');
+					jQuery('<h3>' + jQuery(opt).attr('label') + '<span></span></h3>').appendTo(optgroup_container);
+					optgroup.appendTo(optgroup_container);
+					optgroup_container.appendTo(unorderedList);
+				});
+			} else {
+				addListItemFromOption(jQuery('option', select), unorderedList);
+			}
+			
 			//get values from options and create list items
-			jQuery('option', select).each(function(index, opt) {
-				var option = jQuery(opt);
-				if(option.val() === '') return;
-				//clone the element, in case it gets modified later with events etc
-				var listItem = 	jQuery('<li><input type="checkbox"/><label/></li>'),
-				 value = option.val(),
-				 labeltxt = option.text(),
-				 id = name.replace(/\[|\]/g, '')+index;
-				//check it?
-				option.is(":selected") ? jQuery('input:checkbox', listItem).toggleState() : null;
-				//zebra stripes
-				(zebra++ % 2 === 0) ? listItem.addClass("odd") : null;
-				//populate values
-				jQuery('input:checkbox', listItem).attr({'id': id, 'value': value, 'name': name});
-				jQuery('label', listItem).attr({'for': id}).text(labeltxt);
-				//attach it to the list
-				unorderedList.append(listItem);
-			});		
+			function addListItemFromOption(options, append_to) {
+				options.each(function(index, opt) {
+					var option = jQuery(opt);
+					if(option.val() === '') return;
+					//clone the element, in case it gets modified later with events etc
+					var listItem = 	jQuery('<li><input type="checkbox"/><label/></li>'),
+					 value = option.val(),
+					 labeltxt = option.text(),
+					 id = name.replace(/\[|\]/g, '')+index;
+					//check it?
+					option.is(":selected") ? jQuery('input:checkbox', listItem).toggleState() : null;
+					//zebra stripes
+					(zebra++ % 2 === 0) ? listItem.addClass("odd") : null;
+					//populate values
+					jQuery('input:checkbox', listItem).attr({'id': id, 'value': value, 'name': name});
+					jQuery('label', listItem).attr({'for': id}).text(labeltxt);
+					//attach it to the list
+					append_to.append(listItem);
+				});
+			}		
 			//bind one click event to save memory again in case there are lots of elements
 			unorderedList.bind('click', function(event) {
 				var clickedObject = jQuery(event.target)[0];
@@ -45,7 +62,15 @@ var Sym = {
 				//check for the correct clicked object
 				while (j--) {
 					if (clickedObject == jQuery('label', this)[j]) {
-							jQuery(clickedObject).siblings('input').toggleState();
+						jQuery(clickedObject).siblings('input').toggleState();
+						break;						
+					}
+				}
+				var j = jQuery('h3', unorderedList).length;
+				//check for the correct clicked object
+				while (j--) {
+					if (clickedObject == jQuery('h3', this)[j]) {
+						jQuery(clickedObject).parent().toggleClass('collapse').find('ul').slideToggle('fast');
 						break;						
 					}
 				}
@@ -58,6 +83,7 @@ var Sym = {
 				}
 				event.preventDefault();				
 			}).appendTo(scroll);
+			
 			//if its long add a scrollbar
 			jQuery('li',unorderedList).length > 7 ? scroll.css({height: '150px', overflow: 'auto'}) : null;			
 			//extra options			
@@ -90,14 +116,15 @@ var Sym = {
 				event.preventDefault();
 			});
 			//attach them to the page
-			jQuery([scroll,buttons]).insertAfter(title);
+			jQuery(buttons).insertAfter(title);
+			jQuery(scroll).insertAfter(title);
 			//remove the select
 			select.remove();
 		});	
 	}
 };
 jQuery(function() {
-	if(jQuery('select[multiple]').length){
+	if(jQuery('select').length){
 		Sym.selectToCheckbox({
 			ignore : ".replace, .source, .field-mediathek select, .field-subsectionmanager select"
 		});

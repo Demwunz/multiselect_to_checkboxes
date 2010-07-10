@@ -14,3 +14,9 @@
 
 .checkbox-scroll .clear:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
 .checkbox-scroll .clear{display:inline-table;}
+
+.checkbox-scroll h3 {margin: 0;padding: 5px; background: #ccb; border-bottom: 1px solid #aaa; cursor: pointer;}
+.checkbox-scroll h3:hover span { color: #000; }
+.checkbox-scroll h3 span:after { content: "\2191";}
+.checkbox-scroll .collapse h3 span:after { content: "\2193";}
+.checkbox-scroll span { color: #998; margin-left: 3px; }
