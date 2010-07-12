@@ -19,7 +19,7 @@ var Sym = {
 			 unorderedList = jQuery('<ul/>'),
 			 zebra = 0;
 			
-			if (jQuery('optgroup', select).length) {
+			if (jQuery('optgroup', select).length > 1) {
 				optgroups = true;
 				unorderedList = jQuery('<div/>');
 				jQuery('optgroup', select).each(function(index, opt) {
