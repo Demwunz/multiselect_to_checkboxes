@@ -1,3 +1,9 @@
+Symphony.Language.add({
+	"Reset": false,
+	"Select all": false,
+	"Deselect all": false
+});
+
 var Sym = {
 	selectToCheckbox: function(o){
 		//funcs
@@ -87,7 +93,7 @@ var Sym = {
 			//if its long add a scrollbar
 			jQuery('li',unorderedList).length > 7 ? scroll.css({height: '150px', overflow: 'auto'}) : null;			
 			//extra options			
-			var buttons = jQuery('<div class="checkbox-buttons clear"><a id="checkbox-selectall-'+i+'">Select all</a><a id="checkbox-deselectall-'+i+'">Deselect all</a><a class="inactive" id="checkbox-reset-'+i+'">Reset</a></div>');
+			var buttons = jQuery('<div class="checkbox-buttons clear"><a id="checkbox-selectall-'+i+'">' + Symphony.Language.get("Select all") + '</a><a id="checkbox-deselectall-'+i+'">' + Symphony.Language.get("Deselect all") + '</a><a class="inactive" id="checkbox-reset-'+i+'">' + Symphony.Language.get("Reset") + '</a></div>');
 			buttons.bind('click', function(event) {
 				var clickedObject = jQuery(event.target)[0];
 				var j = 3;//3 buttons
