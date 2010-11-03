@@ -46,7 +46,7 @@ var Sym = {
 					var option = jQuery(opt);
 					if(option.val() === '') return;
 					//clone the element, in case it gets modified later with events etc
-					var listItem = 	jQuery('<li><input type="checkbox"/><label/></li>'),
+					var listItem = 	jQuery('<li><input type="checkbox" /><label/></li>'),
 					 value = option.val(),
 					 labeltxt = option.text(),
 					 id = name.replace(/\[|\]/g, '')+index;
@@ -62,13 +62,20 @@ var Sym = {
 				});
 			}		
 			//bind one click event to save memory again in case there are lots of elements
-			unorderedList.bind('click', function(event) {
+			unorderedList.bind('click', function(event) {				
 				var clickedObject = jQuery(event.target)[0];
 				var j = jQuery('li', unorderedList).length;
 				//check for the correct clicked object
 				while (j--) {
 					if (clickedObject == jQuery('label', this)[j]) {
 						jQuery(clickedObject).siblings('input').toggleState();
+						break;						
+					}
+					// Fix bug in IE:
+					if (clickedObject == jQuery('input', this)[j]) {
+						checked = jQuery(clickedObject).is(':checked');
+						jQuery(clickedObject).parent().toggleClass('checked', checked);
+						return;
 						break;						
 					}
 				}
