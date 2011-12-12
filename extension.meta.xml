@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension id="multiselect_to_checkboxes" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+	<name>Multiselect to Checkboxes</name>
+	<description>Convert multiselect dropdowns into lists of checkboxes</description>
+	<repo type="github">https://github.com/Demwunz/multiselect_to_checkboxes</repo>
+	<url type="discuss">http://symphony-cms.com/discuss/thread/21324/</url>
+	<types>
+		<type>Interface</type>
+	</types>
+	<authors>
+		<author>
+			<name github="demwunz" symphony="Fazal">Fazal Khan</name>
+			<website>http://www.fazalkhan.co.uk</website>
+		</author>
+	</authors>
+	<releases>
+		<release version="1.0" date="2009-05-17" min="2.0.6" />
+	</releases>
+</extension>
