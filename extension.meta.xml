@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension id="multiselect_to_checkboxes" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+<extension id="multiselect_to_checkboxes" status="deprecated" xmlns="http://symphony-cms.com/schemas/extension/1.0">
 	<name>Multiselect to Checkboxes</name>
 	<description>Convert multiselect dropdowns into lists of checkboxes</description>
 	<repo type="github">https://github.com/Demwunz/multiselect_to_checkboxes</repo>
